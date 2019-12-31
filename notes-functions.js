@@ -1,3 +1,5 @@
+'use strict'
+
 // read notes from localStorage
 
 const getSavedNotes = function () {
