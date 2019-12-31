@@ -2,8 +2,7 @@
 
 const getSavedNotes = function () {
   const notesJSON = localStorage.getItem('notes');
-  if (notesJSON) return JSON.parse(notesJSON);
-  else return [];
+  return notesJSON ? JSON.parse(notesJSON) : [];
 };
 
 // save notes to localStorage
@@ -19,7 +18,7 @@ const removeNote = function (id) {
   if (noteIndex > -1) notes.splice(noteIndex, 1);
 };
 
-// generate the DOM structure for a note
+// generate the DOM structure for a noteS
 
 const generateNote = function (note) {
   const noteContainer = document.createElement('div');
