@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 // read notes from localStorage
 
-const getSavedNotes = function () {
+const getSavedNotes = function() {
   const notesJSON = localStorage.getItem('notes');
 
   try {
@@ -10,25 +10,24 @@ const getSavedNotes = function () {
   } catch (e) {
     return [];
   }
-
 };
 
 // save notes to localStorage
 
-const saveNotesToLocalStorage = function (notes) {
+const saveNotesToLocalStorage = function(notes) {
   return localStorage.setItem('notes', JSON.stringify(notes));
 };
 
 // remove notes
 
-const removeNote = function (id) {
+const removeNote = function(id) {
   const noteIndex = notes.findIndex(note => note.id === id);
   if (noteIndex > -1) notes.splice(noteIndex, 1);
 };
 
 // generate the DOM structure for a noteS
 
-const generateNote = function (note) {
+const generateNote = function(note) {
   const noteContainer = document.createElement('div');
   const p = document.createElement('a');
   const delBtn = document.createElement('button');
@@ -60,7 +59,7 @@ const generateNote = function (note) {
 
 // sort notes
 
-const sortNotes = function (notes, sortBy) {
+const sortNotes = function(notes, sortBy) {
   if (sortBy === 'byEdited') {
     return notes.sort((a, b) => b.updatedAt - a.updatedAt);
   } else if (sortBy === 'byCreated') {
@@ -76,18 +75,25 @@ const sortNotes = function (notes, sortBy) {
 
 // Render notes
 
-const renderNotes = function (notes, filters) {
+const renderNotes = function(notes, filters) {
   notes = sortNotes(notes, filters.sortBy);
   const filteredNotes = notes.filter(note => note.title.includes(filters.searchText));
   const container = document.querySelector('#notes-container');
 
   container.innerHTML = '';
 
-  filteredNotes.forEach(note => container.appendChild(generateNote(note)));
+  if (filteredNotes.length > 0) {
+    filteredNotes.forEach(note => container.appendChild(generateNote(note)));
+  } else {
+    const emptyMessage = document.createElement('p');
+    emptyMessage.textContent = 'No notes to show';
+
+    container.appendChild(emptyMessage);
+  }
 };
 
 // updates edited date
 
-const generateLastEdited = function (timestamp) {
+const generateLastEdited = function(timestamp) {
   return `Last edited ${moment(timestamp).fromNow()}`;
 };
