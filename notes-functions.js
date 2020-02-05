@@ -28,30 +28,24 @@ const removeNote = function(id) {
 // generate the DOM structure for a noteS
 
 const generateNote = function(note) {
-  const noteContainer = document.createElement('div');
-  const p = document.createElement('a');
-  const delBtn = document.createElement('button');
-  const date = document.createElement('span');
-
-  //setup remove note btn
-  delBtn.textContent = 'x';
-  noteContainer.appendChild(delBtn);
-  delBtn.addEventListener('click', () => {
-    removeNote(note.id);
-    saveNotesToLocalStorage(notes);
-    renderNotes(notes, filters);
-  });
+  const noteContainer = document.createElement('a');
+  const p = document.createElement('p');
+  const date = document.createElement('p');
 
   // setup the note title text
   if (note.title.length > 0) {
     p.textContent = note.title;
   } else p.textContent = 'No title note';
-  p.href = `edit.html#${note.id}`;
-  noteContainer.appendChild(p);
 
+  p.classList.add('list-item__title');
+
+  noteContainer.appendChild(p);
+  noteContainer.href = `edit.html#${note.id}`;
+  noteContainer.classList.add('list-item');
   // setup the note's date
 
   date.textContent = generateLastEdited(note.updatedAt);
+  date.classList.add('list-item__subtitle');
   noteContainer.appendChild(date);
 
   return noteContainer;
@@ -87,7 +81,7 @@ const renderNotes = function(notes, filters) {
   } else {
     const emptyMessage = document.createElement('p');
     emptyMessage.textContent = 'No notes to show';
-
+    emptyMessage.classList.add('empty-message');
     container.appendChild(emptyMessage);
   }
 };
